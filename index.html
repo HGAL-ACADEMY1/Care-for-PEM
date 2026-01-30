@@ -1,0 +1,363 @@
+import React, { useRef } from 'react';
+import { motion, useScroll, useSpring } from 'framer-motion';
+import { BookOpen, Info, AlertTriangle, Utensils, CheckCircle } from 'lucide-react';
+
+// --- STYLES & CONFIGURATION ---
+
+const styles = `
+  @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap');
+
+  body {
+    background-color: #0f172a; /* Deep slate/charcoal */
+    color: #e2e8f0;
+    font-family: 'Merriweather', serif;
+    overflow-x: hidden;
+  }
+
+  /* Custom Scrollbar for Chrome/Safari/Webkit */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0f172a; 
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #334155; 
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #475569; 
+  }
+  
+  .prose-lg {
+    font-size: 26px;
+    line-height: 1.6;
+  }
+`;
+
+// --- COMPONENTS ---
+
+const ScrollProgress = () => {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  return (
+    <motion.div
+      className="fixed top-0 left-0 right-0 h-2 bg-gradient-to-r from-emerald-400 to-cyan-500 origin-left z-50 shadow-[0_0_10px_rgba(52,211,153,0.5)]"
+      style={{ scaleX }}
+    />
+  );
+};
+
+// Animated Text Block (The "Bubble" Effect)
+const TextBlock = ({ children, delay = 0 }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30, scale: 0.98 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.6, ease: "easeOut", delay }}
+      className="mb-10 text-slate-200 leading-relaxed font-light tracking-wide text-[20px] md:text-[26px]"
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+// Highlighted Keyword
+const Highlight = ({ children, color = "text-emerald-400" }) => (
+  <span className={`${color} font-bold`}>{children}</span>
+);
+
+// Table Row Component
+const TableRow = ({ label, m, k, mk, u, isHeader = false }) => {
+  const baseClass = "p-3 md:p-4 text-sm md:text-lg border-b border-slate-700 grid grid-cols-5 gap-2 items-center text-center";
+  if (isHeader) {
+    return (
+      <div className={`${baseClass} bg-slate-800 font-bold text-emerald-300 sticky top-0`}>
+        <div className="text-left">Feature</div>
+        <div>Marasmus</div>
+        <div>Kwashiorkor</div>
+        <div>M-K Mix</div>
+        <div>Under-nutrition</div>
+      </div>
+    );
+  }
+  return (
+    <div className={`${baseClass} hover:bg-slate-800/50 transition-colors`}>
+      <div className="text-left font-bold text-slate-400 text-xs md:text-base">{label}</div>
+      <div>{m}</div>
+      <div>{k}</div>
+      <div>{mk}</div>
+      <div>{u}</div>
+    </div>
+  );
+};
+
+// --- MAIN APPLICATION ---
+
+export default function App() {
+  return (
+    <div className="min-h-screen w-full bg-gradient-to-b from-slate-950 via-slate-900 to-black selection:bg-emerald-500 selection:text-white">
+      <style>{styles}</style>
+      <ScrollProgress />
+
+      <main className="max-w-4xl mx-auto px-6 md:px-12 py-12 pb-32">
+        
+        {/* LOGO SECTION */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
+          className="flex justify-center mb-12"
+        >
+          <img 
+            src="https://i.imgur.com/eP0BFrd.png" 
+            alt="HGAL Academy Logo" 
+            className="w-full max-w-[280px] md:max-w-[400px] object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]"
+          />
+        </motion.div>
+
+        {/* INTRODUCTION */}
+        <TextBlock>
+          Hello there! 👋 Welcome to today's lecture. I am so excited to have you here!
+        </TextBlock>
+
+        <TextBlock>
+          Today, we are going to explore a very interesting topic: <Highlight>Nutrition Care for Protein-Energy Malnourished Children</Highlight>. 🥗
+        </TextBlock>
+
+        <TextBlock>
+          I know that sounds like a very long and complicated title, but don't worry! We are going to break it down step-by-step so it makes perfect sense. Let's dive in! 🚀
+        </TextBlock>
+
+        <TextBlock>
+          First, let's understand the basics. What exactly is this big term, <Highlight>Protein Energy Malnutrition</Highlight>, or <Highlight>PEM</Highlight> for short? 🤔
+        </TextBlock>
+
+        <TextBlock>
+          Think of PEM as an <Highlight>umbrella ☂️</Highlight>. You know how an umbrella covers everything underneath it? Well, PEM is an umbrella word that covers a whole group of nutritional problems.
+        </TextBlock>
+
+        <TextBlock>
+          These problems happen when a child's body doesn't get enough of two very important things: <Highlight>Protein</Highlight> (which builds the body) and <Highlight>Energy</Highlight> (which fuels the body).
+        </TextBlock>
+
+        <TextBlock>
+          <div className="flex items-start gap-4 p-6 bg-slate-800/40 rounded-2xl border-l-4 border-emerald-500">
+            <BookOpen className="w-8 h-8 text-emerald-400 shrink-0 mt-1" />
+            <div>
+               So, broadly speaking, PEM is simply a lack of protein and energy due to undernutrition.
+            </div>
+          </div>
+        </TextBlock>
+
+        <TextBlock>
+           Okay, let’s now move on to the different types—or patterns—of this condition. It doesn't just look the same on everyone! There are three main "faces" of PEM:
+           <ol className="list-decimal list-inside mt-4 space-y-2 ml-4 text-emerald-100">
+             <li><Highlight color="text-yellow-400">Kwashiorkor</Highlight></li>
+             <li><Highlight color="text-orange-400">Marasmus</Highlight></li>
+             <li><Highlight color="text-red-400">Marasmic-Kwashiorkor</Highlight> (a mix of both)</li>
+           </ol>
+        </TextBlock>
+
+        <TextBlock>
+          Let me explain what each of these looks like. 🧐
+        </TextBlock>
+
+        <TextBlock>
+          First is <Highlight color="text-yellow-400">Kwashiorkor</Highlight>. This happens when there is a specific lack of the body-building food called <strong>protein</strong>. Protein is super important because it builds strong muscles, blood, and skin! 💪
+        </TextBlock>
+
+        <TextBlock>
+          Children with Kwashiorkor usually have:
+          <ul className="list-none mt-2 space-y-2">
+            <li>💧 <strong>Oedema:</strong> This is a fancy word for swelling (fluid retention).</li>
+            <li>🌝 <strong>Moon Face:</strong> Their face looks round and puffy.</li>
+            <li>😞 <strong>Misery:</strong> They often look very sad or miserable.</li>
+          </ul>
+        </TextBlock>
+
+        <TextBlock>
+          Next, let's look at <Highlight color="text-orange-400">Marasmus</Highlight>. This is the term we use for children who basically do not have enough food of <em>any</em> kind—both protein and energy are missing. 📉
+        </TextBlock>
+
+        <TextBlock>
+           These children usually look very <strong>anxious</strong> and extremely <strong>hungry</strong>. They are very thin.
+        </TextBlock>
+
+        <TextBlock>
+          Then we have <Highlight color="text-red-400">Marasmic-Kwashiorkor</Highlight>. As the name suggests, these children show signs of <strong>both</strong> Kwashiorkor (swelling) and Marasmus (wasting). It’s a combination of the two.
+        </TextBlock>
+
+        <TextBlock>
+          Lastly, we have the <Highlight>Undernourished</Highlight> children. These are kids who are just beginning to show signs of Kwashiorkor or Marasmus. Their weight is usually better than the others, but it is still below the normal standard weight for their age. ⚖️
+        </TextBlock>
+
+        <TextBlock>
+          Now that we understand what these look like, let’s talk about the specific features in more detail. 📝
+        </TextBlock>
+
+        <TextBlock>
+          It helps to compare them side-by-side. I've prepared a simple chart for you to see the differences clearly.
+        </TextBlock>
+
+        {/* COMPARISON TABLE */}
+        <motion.div 
+           initial={{ opacity: 0, scale: 0.95 }}
+           whileInView={{ opacity: 1, scale: 1 }}
+           viewport={{ once: true }}
+           className="my-12 overflow-x-auto border border-slate-700 rounded-xl shadow-2xl bg-slate-900/50"
+        >
+          <div className="min-w-[800px]"> {/* Ensures table scrolls on mobile if too tight */}
+            <TableRow isHeader />
+            <TableRow label="Age" m="1-2 yrs" k="1-4 yrs" mk="1-4 yrs" u="1-4 yrs" />
+            <TableRow label="Oedema (Swelling)" m="-" k="+++" mk="+" u="-" />
+            <TableRow label="Severe Weight Loss" m="+++" k="+" mk="+" u="-" />
+            <TableRow label="Muscle Wasting" m="+++" k="+" mk="+" u="-" />
+            <TableRow label="Enlarged Fatty Liver" m="-" k="+++" mk="+" u="-" />
+            <TableRow label="Dehydration" m="+++" k="-" mk="+" u="-" />
+            <TableRow label="Anorexia (No appetite)" m="-" k="++" mk="+" u="-" />
+            <TableRow label="Growth Retardation" m="+++" k="++" mk="++" u="+" />
+            <TableRow label="Skin Changes" m="+++" k="++" mk="+" u="Often" />
+            <TableRow label="Hair Changes" m="++" k="+++" mk="+" u="Often" />
+            <TableRow label="Apathy (No emotion)" m="+" k="++" mk="+" u="-" />
+          </div>
+          <div className="p-3 text-xs text-slate-500 text-center italic">
+            Key: +++ (Very Prominent), ++ (Prominent), + (Present), - (Not Present)
+          </div>
+        </motion.div>
+
+        <TextBlock>
+          Let’s now dive into <Highlight>The Diet</Highlight>. How do we actually help these children get better? 🏥
+        </TextBlock>
+
+        <TextBlock>
+          One big problem is that children suffering from PEM often lose their appetite, especially at the beginning of treatment. This is very common in Kwashiorkor and Marasmic-Kwashiorkor.
+        </TextBlock>
+
+        <TextBlock>
+          <div className="flex gap-4 p-6 bg-slate-800/40 rounded-2xl border-l-4 border-yellow-500">
+            <Info className="w-8 h-8 text-yellow-400 shrink-0 mt-1" />
+            <div>
+              <strong>Important Target:</strong> Before these children can start losing that unhealthy fluid (oedema), they need to consume a specific amount of energy. The goal is <Highlight>58.3 kcal/kg/day</Highlight>. ⚡
+            </div>
+          </div>
+        </TextBlock>
+
+        <TextBlock>
+          To achieve this, we use a special <strong>Local Fluid Mixture</strong>. It is nutrient-dense and easier for them to eat. Here is the recipe! 👩‍🍳
+        </TextBlock>
+
+        <TextBlock>
+          <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+             <h3 className="text-emerald-400 font-bold mb-4 text-xl flex items-center gap-2">
+               <Utensils className="w-5 h-5" /> The Rescue Recipe
+             </h3>
+             <ul className="space-y-3">
+               <li className="flex items-center gap-3">🥛 <span><strong>Powdered Full Cream Milk:</strong> 23kg (Note: This refers to bulk prep, scaled down for home use)</span></li>
+               <li className="flex items-center gap-3">🌻 <span><strong>Vegetable Oil:</strong> 50g</span></li>
+               <li className="flex items-center gap-3">🍬 <span><strong>Pure Cane Sugar:</strong> 50g</span></li>
+               <li className="flex items-center gap-3">🌽 <span><strong>Corn Pap:</strong> 750g</span></li>
+             </ul>
+             <div className="mt-6 pt-4 border-t border-slate-700 text-slate-300">
+               <strong>Method:</strong> Mix all these ingredients very well, and then make it up to <strong>1 litre</strong> with water that has been previously boiled and cooled.
+             </div>
+          </div>
+        </TextBlock>
+
+        <TextBlock>
+          But what if you don't have milk? No problem! 🙅‍♂️ The full-cream powdered milk can be replaced with other available protein sources like:
+          <br/>🥚 Egg
+          <br/>🥜 Groundnut paste or powder
+          <br/>🦞 Crayfish or fish powder
+          <br/>🥛 Soybean milk
+        </TextBlock>
+
+        <TextBlock>
+          Next, we'll look at the use of <Highlight>Mixed Diets</Highlight>. 🥘
+        </TextBlock>
+
+        <TextBlock>
+          Once the child is a bit stronger, or for children over seven months old, evidence shows they can be effectively managed using locally available complementary protein-based diets.
+        </TextBlock>
+
+        <TextBlock>
+          Here is a perfect daily meal plan using foods we know and love:
+        </TextBlock>
+
+        <TextBlock>
+          <div className="space-y-6">
+            <div className="p-4 bg-slate-800/30 rounded-lg border-l-4 border-emerald-500">
+              <h4 className="text-xl font-bold text-emerald-300 mb-2">🌅 Breakfast</h4>
+              <p>Corn pap, Guinea corn pap, or Wheat pap.</p>
+              <p className="mt-2 text-slate-400 italic">Served with:</p>
+              <p><strong>Akara</strong> (seasoned fried bean balls) OR <strong>Moi-moi</strong> (steamed bean pudding).</p>
+              <p className="mt-2 text-sm text-slate-500">Ingredients used: Grains, black-eyed beans, pepper, onion, crayfish, palm oil, salt.</p>
+              <p className="mt-2 text-sm text-slate-500 border-t border-slate-700 pt-2">Snack option: Mashed boiled yam with palm oil, crayfish, and a piece of banana. 🍌</p>
+            </div>
+
+            <div className="p-4 bg-slate-800/30 rounded-lg border-l-4 border-yellow-500">
+              <h4 className="text-xl font-bold text-yellow-300 mb-2">☀️ Lunch</h4>
+              <p><strong>Rice with Beans.</strong> 🍚🥣</p>
+              <p className="mt-2 text-sm text-slate-500">This meal contains: Rice, beans, pepper, onion, fresh tomato paste, palm oil, salt, and crayfish.</p>
+            </div>
+
+            <div className="p-4 bg-slate-800/30 rounded-lg border-l-4 border-orange-500">
+              <h4 className="text-xl font-bold text-orange-300 mb-2">🌙 Dinner</h4>
+              <p><strong>Eko (Agidi) and Beans with Vegetable Soup.</strong> 🍲</p>
+              <p className="mt-2 text-sm text-slate-500">This meal contains: Fermented corn flour, crayfish, and smashed beans.</p>
+            </div>
+          </div>
+        </TextBlock>
+
+        <TextBlock>
+           At this point, it is important to remember that these natural, local foods are powerful medicine for a malnourished child. By mixing grains (like corn/rice) with legumes (beans), we create a high-quality protein that helps them grow strong! 💪
+        </TextBlock>
+
+        {/* CONTINUOUS VIP SECTION */}
+        <motion.div
+           initial={{ opacity: 0, y: 30 }}
+           whileInView={{ opacity: 1, y: 0 }}
+           viewport={{ once: true }}
+           transition={{ duration: 0.8 }}
+           className="mt-12 pt-8 border-t border-slate-800"
+        >
+           <p className="text-slate-200 leading-relaxed font-light tracking-wide text-[20px] md:text-[26px] mb-8">
+             That brings us to the end of this lecture note on caring for children with PEM. I hope this was clear and helpful! 😊
+             <br/><br/>
+             Before you go, I have something special for you. Join our VIP if you're yet to, for more study materials and other bonuses (worth #115,000)! 🎁
+             <br/><br/>
+             For more details, just click below:
+             <br/>
+             👇
+           </p>
+
+           <div className="flex justify-start">
+             <motion.a
+               href="https://tinyurl.com/2dbtvx2b"
+               target="_blank"
+               rel="noopener noreferrer"
+               whileHover={{ scale: 1.05 }}
+               whileTap={{ scale: 0.95 }}
+               animate={{ 
+                 boxShadow: ["0px 0px 0px rgba(52,211,153,0)", "0px 0px 20px rgba(52,211,153,0.6)", "0px 0px 0px rgba(52,211,153,0)"]
+               }}
+               transition={{ 
+                 boxShadow: { duration: 2, repeat: Infinity } 
+               }}
+               className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold text-xl px-10 py-4 rounded-full flex items-center gap-3 hover:from-emerald-400 hover:to-teal-500 transition-all shadow-lg cursor-pointer"
+             >
+               Click Here <CheckCircle className="w-6 h-6" />
+             </motion.a>
+           </div>
+        </motion.div>
+
+      </main>
+    </div>
+  );
+}
