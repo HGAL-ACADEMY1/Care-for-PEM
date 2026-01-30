@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrition Care for PEM - HGAL Academy</title>
+    <!-- Importing Merriweather Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CORE THEME & RESET --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(180deg, #121212 0%, #1e1e24 100%);
+            color: #e0e0e0;
+            font-family: 'Merriweather', serif;
+            font-size: 26px; /* Big readable font size as requested */
+            line-height: 1.8;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- SCROLL PROGRESS BAR --- */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: linear-gradient(90deg, #00C853, #69F0AE); /* WhatsApp-ish green accent */
+            width: 0%;
+            border-radius: 0 3px 3px 0;
+            transition: width 0.1s ease;
+        }
+
+        /* --- LAYOUT --- */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+
+        /* --- LOGO --- */
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+            margin-bottom: 60px;
+            animation: fadeInDown 1.5s ease-out;
+        }
+
+        .logo {
+            width: 350px;
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.1));
+        }
+
+        /* --- TEXT STYLING --- */
+        p, ul, li, h2, h3 {
+            margin-bottom: 30px;
+            opacity: 0; /* Hidden initially for animation */
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        /* Class added by JS for scroll animation */
+        .pop-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        strong {
+            color: #ffffff;
+            font-weight: 900;
+        }
+
+        .highlight {
+            color: #69F0AE; /* Soft green highlight */
+        }
+
+        .warning {
+            color: #FFAB91; /* Soft orange/red for serious points */
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: #fff;
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+        }
+
+        /* --- LISTS (No bullets, emoji style) --- */
+        ul {
+            list-style-type: none;
+        }
+        
+        li {
+            margin-bottom: 20px;
+            padding-left: 10px;
+        }
+
+        /* --- VIP BUTTON SECTION --- */
+        .vip-section {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px dashed #333;
+        }
+
+        .vip-btn {
+            display: inline-block;
+            background: linear-gradient(45deg, #00C853, #00E676);
+            color: #000;
+            font-family: 'Merriweather', serif;
+            font-weight: 700;
+            font-size: 24px;
+            padding: 20px 50px;
+            border-radius: 50px;
+            text-decoration: none;
+            margin-top: 30px;
+            box-shadow: 0 10px 20px rgba(0, 230, 118, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .vip-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 230, 118, 0.4);
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 600px) {
+            body {
+                font-size: 20px; /* Slightly smaller on mobile but still big */
+            }
+            .logo {
+                width: 280px;
+            }
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Scroll Progress Indicator -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="container">
+        <!-- Branding -->
+        <div class="logo-container">
+            <img src="https://i.imgur.com/eP0BFrd.png" alt="HGAL Academy Logo" class="logo">
+        </div>
+
+        <!-- Lecture Content -->
+        
+        <p>Hello, class! 👋 Welcome to today's lecture. I'm so excited you are here.</p>
+
+        <p>Today, we are going to learn about something very important called <strong>Nutrition Care for Protein-Energy Malnourished Children</strong>. 🍎💊</p>
+
+        <p>I know that sounds like a very big, complicated title! But don’t worry, we are going to break it down together, piece by piece, just like building a Lego set. 🧱</p>
+
+        <p>First, let’s understand the big word: <strong>PEM</strong>. This stands for <span class="highlight">Protein-Energy Malnutrition</span>.</p>
+
+        <p>Imagine PEM is like a big <strong>umbrella</strong> ☂️. Under this umbrella, we have different types of sicknesses that happen when a child doesn't get enough food, or the right <em>kind</em> of food.</p>
+
+        <p>Basically, it’s a spectrum—meaning it ranges from lacking just protein to lacking energy (food) entirely.</p>
+
+        <p>Okay, let’s look at the three "children" under this umbrella. Their names are <strong>Kwashiorkor</strong>, <strong>Marasmus</strong>, and <strong>Marasmic-Kwashiorkor</strong>. Let's meet them one by one. 👇</p>
+
+        <p><strong>1. Kwashiorkor</strong> 🧒🏾<br>
+        This happens when a child doesn't eat enough <strong>Protein</strong>. Protein is the "bodybuilder" food! 💪 It helps us build strong muscles, blood, and skin.</p>
+        
+        <p>When a child lacks this, they might look miserable and sad. 😢 They often have something called <strong>oedema</strong>—which is a fancy word for swelling—and a "moon face" (their face looks round and puffy). 🌕</p>
+
+        <p><strong>2. Marasmus</strong> 🦴<br>
+        This is the term we use for children who simply <strong>do not have enough food of any kind</strong>. They are starving.</p>
+
+        <p>These children usually look very anxious and hungry. They are very thin because their body is using up all its energy just to stay alive. 😔</p>
+
+        <p><strong>3. Marasmic-Kwashiorkor</strong> 🍂<br>
+        As the name suggests, this is a mix of both! These poor children show signs of <strong>both</strong> Kwashiorkor (protein lack) and Marasmus (starvation).</p>
+
+        <p>We also have children who are "Undernourished." These are children just starting to show signs of sickness. Their weight is lower than normal, but they aren't as sick as the others yet.</p>
+
+        <p>Okay, let’s now move on to… identifying the features! 🕵️‍♂️</p>
+
+        <p>Before we can feed them properly (that’s the diet part!), we need to be like detectives and know exactly what we are looking at. 🔍</p>
+
+        <p>Here is how we can tell the difference between Marasmus, Kwashiorkor, and the others based on their features:</p>
+
+        <p><strong>A. Look at their Age 🎂</strong></p>
+        <ul>
+            <li>👶 <strong>Marasmus:</strong> Usually affects babies 1-2 years old.</li>
+            <li>🧒 <strong>Kwashiorkor:</strong> Affects slightly older toddlers, 1-4 years old.</li>
+            <li>👦 <strong>Marasmic-Kwashiorkor & Undernutrition:</strong> Also common in 1-4 years old.</li>
+        </ul>
+
+        <p><strong>B. Look for Oedema (The Swelling) 🎈</strong></p>
+        <ul>
+            <li><strong>Marasmus:</strong> No swelling (–).</li>
+            <li><strong>Kwashiorkor:</strong> Very severe swelling (+++). It's very prominent.</li>
+            <li><strong>Marasmic-Kwashiorkor:</strong> Some swelling (+).</li>
+            <li><strong>Undernutrition:</strong> No swelling (–).</li>
+        </ul>
+
+        <p><strong>C. Look at Weight Loss 📉</strong></p>
+        <ul>
+            <li><strong>Marasmus:</strong> Very severe weight loss (+++). They are very thin.</li>
+            <li><strong>Kwashiorkor:</strong> Some weight loss (+), but the swelling hides it.</li>
+            <li><strong>Marasmic-Kwashiorkor:</strong> Some weight loss (+).</li>
+            <li><strong>Undernutrition:</strong> No severe weight loss yet (–).</li>
+        </ul>
+
+        <p><strong>D. Look at their Muscles 💪</strong></p>
+        <ul>
+            <li><strong>Marasmus:</strong> Severe muscle wasting (+++). The muscles are gone.</li>
+            <li><strong>Kwashiorkor:</strong> Some muscle wasting (+).</li>
+            <li><strong>Marasmic-Kwashiorkor:</strong> Some muscle wasting (+).</li>
+            <li><strong>Undernutrition:</strong> Muscles are okay (–).</li>
+        </ul>
+
+        <p><strong>E. Check the Liver (Inside the tummy) 🩺</strong></p>
+        <ul>
+            <li><strong>Marasmus:</strong> Liver is normal (–).</li>
+            <li><strong>Kwashiorkor:</strong> Very enlarged, fatty liver (+++). This is dangerous.</li>
+            <li><strong>Marasmic-Kwashiorkor:</strong> Slightly enlarged liver (+).</li>
+            <li><strong>Undernutrition:</strong> Normal (–).</li>
+        </ul>
+
+        <p>Now that we understand the features, let’s talk about… <strong>How to fix it with food!</strong> 🍲</p>
+
+        <p>Usually, when children suffer from PEM, they lose their appetite. They don't want to eat! 😷</p>
+
+        <p>So, in the early stages, we use a <strong>Local Fluid Mixture</strong>. Liquid is easier for them to take.</p>
+
+        <p>For children with Kwashiorkor or Marasmic-Kwashiorkor, we need to give them a lot of energy—specifically <strong>58.3 kcal per kg of their body weight every day</strong>. This helps them get strong enough to lose that bad fluid (oedema).</p>
+
+        <p>📝 <strong>Here is the Recipe for the Magic Fluid Mixture:</strong></p>
+        <ul>
+            <li>🥛 <strong>Powdered full cream milk:</strong> 23kg (Note: In a home setting, we use proportional scoops!).</li>
+            <li>🌻 <strong>Vegetable oil:</strong> 50g (for energy!).</li>
+            <li>🍬 <strong>Pure cane sugar:</strong> 50g (for quick energy!).</li>
+            <li>🌽 <strong>Corn pap:</strong> 750g (the base).</li>
+        </ul>
+
+        <p><strong>How to make it:</strong><br>
+        Mix all these ingredients together very well. Then, add boiled and cooled water until it makes <strong>1 litre</strong> of liquid.</p>
+
+        <p>💡 <em>Pro Tip:</em> If you don't have full-cream milk powder, you can swap it for any protein you have! You can use <strong>egg, groundnut paste (peanut butter), crayfish, fish powder, or soybean milk</strong>. It works just as well!</p>
+
+        <p>Let’s now dive into… <strong>Solid Foods (Mixed Diets)</strong> 🍛</p>
+
+        <p>Once the child is a bit stronger, or if they are over 7 months old, we can move to "Mixed Diets." Research shows that we can treat these children very effectively using local food found right here in our markets! 🛒</p>
+
+        <p>We call these "Complementary protein-based diets." Here is a yummy meal plan we can use to make them strong again:</p>
+
+        <p><strong>🌞 Breakfast</strong></p>
+        <ul>
+            <li>Serve <strong>Corn pap, Guinea corn pap, or Wheat pap</strong>.</li>
+            <li>Pair it with <strong>Akara</strong> (fried bean balls) or <strong>Moi-moi</strong> (steamed bean pudding).</li>
+            <li><em>Ingredients needed:</em> Grains for pap, black-eyed beans, pepper, onion, crayfish, palm oil, and salt.</li>
+            <li><em>Snack option:</em> Mashed boiled yam with palm oil, crayfish, and a piece of banana! 🍌</li>
+        </ul>
+
+        <p><strong>☀️ Lunch</strong></p>
+        <ul>
+            <li><strong>Rice and Beans!</strong> 🍚🥜</li>
+            <li><em>Ingredients:</em> Rice, beans, pepper, onion, fresh tomato paste, palm oil, salt, and lots of crayfish for protein.</li>
+        </ul>
+
+        <p><strong>🌙 Dinner</strong></p>
+        <ul>
+            <li><strong>Eko (Agidi) with Beans and Vegetable Soup</strong> 🥬</li>
+            <li><em>Ingredients:</em> Fermented corn flour (for the Agidi), smashed beans, and healthy vegetables.</li>
+        </ul>
+
+        <p>At this point, it’s important to consider that consistent feeding with these local, nutritious foods will help the child recover their weight, muscle, and smile! 😊</p>
+
+        <p>And that brings us to the end of our lecture on caring for these children. You did great today! 🌟</p>
+
+        <!-- VIP Section -->
+        <div class="vip-section">
+            <p class="highlight">Join our VIP if you're yet to, for more study materials and other bonuses (worth #115,000).</p>
+            <p>For more details click below 👇</p>
+            
+            <a href="https://tinyurl.com/2dbtvx2b" class="vip-btn" target="_blank">Click Here</a>
+        </div>
+
+    </div>
+
+    <script>
+        // --- SCROLL ANIMATION (The "Pop" Effect) ---
+        // We use IntersectionObserver to check if elements are on screen
+        const observerOptions = {
+            threshold: 0.1 // Trigger when 10% of the element is visible
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('pop-in');
+                }
+            });
+        }, observerOptions);
+
+        // Select all text elements to animate
+        const hiddenElements = document.querySelectorAll('p, ul, li, h2, h3, .vip-section');
+        hiddenElements.forEach((el) => observer.observe(el));
+
+
+        // --- SCROLL PROGRESS BAR ---
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("progressBar").style.width = scrolled + "%";
+        };
+    </script>
+</body>
+</html>
